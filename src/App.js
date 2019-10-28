@@ -3,7 +3,7 @@ import NoteList from './components/NoteList';
 import AddNote from './components/AddNote';
 import FilterButton from './components/FilterButton';
 import Footer from './components/Footer';
-import noteService from './services/notes';
+// import noteService from './services/notes';
 
 const App = () => {
   const [ notes, setNotes ] = useState([]);
@@ -32,7 +32,7 @@ const App = () => {
       })
       .catch(e => {
         setErrorMessage(
-          `Note ${note.content} was already removed from the server`
+          `Note ${ note.content } was already removed from the server`
         );
         setTimeout(() => {
           setErrorMessage(null)
@@ -52,34 +52,34 @@ const App = () => {
     noteService
       .create(noteObject)
       .then(returnedNote => {
-        setNotes([...notes, returnedNote]);
+        setNotes([ ...notes, returnedNote ]);
         setNewNote('');
       });
   }
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
-  
+
   return (
     <div>
       <h2>Notebook</h2>
       <h6>Filter Notes</h6>
-      <FilterButton 
-        showAll={showAll} 
-        setShowAll={setShowAll}
+      <FilterButton
+        showAll={ showAll }
+        setShowAll={ setShowAll }
       />
       <h5>Notes: </h5>
-      <NoteList 
-        notesToShow={notesToShow} 
-        toggleImportance={toggleImportance} 
+      <NoteList
+        notesToShow={ notesToShow }
+        toggleImportance={ toggleImportance }
       />
 
       <h5>Add New Note</h5>
-      <AddNote 
-        addNote={addNote}
-        newNote={newNote} 
-        handleNoteChange={handleNoteChange}
+      <AddNote
+        addNote={ addNote }
+        newNote={ newNote }
+        handleNoteChange={ handleNoteChange }
       />
-    <Footer />
+      <Footer />
     </div>
   );
 }
