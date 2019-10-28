@@ -3,7 +3,7 @@ import NoteList from './components/NoteList';
 import AddNote from './components/AddNote';
 import FilterButton from './components/FilterButton';
 import Footer from './components/Footer';
-// import noteService from './services/notes';
+import noteService from './services/notes';
 
 const App = () => {
   const [ notes, setNotes ] = useState([]);
