@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NoteList from './components/NoteList';
 import AddNote from './components/AddNote';
 import FilterButton from './components/FilterButton';
+import Notification from './components/Notification';
 import Footer from './components/Footer';
 import noteService from './services/notes';
 
@@ -9,7 +10,7 @@ const App = () => {
   const [ notes, setNotes ] = useState([]);
   const [ newNote, setNewNote ] = useState('');
   const [ showAll, setShowAll ] = useState(true);
-  const [ errorMessage, setErrorMessage ] = useState('error!');
+  const [ errorMessage, setErrorMessage ] = useState(null);
 
   useEffect(() => {
     noteService
@@ -18,7 +19,6 @@ const App = () => {
   }, [])
 
   const handleNoteChange = event => {
-    console.log(event.target.value);
     setNewNote(event.target.value);
   }
 
@@ -28,7 +28,7 @@ const App = () => {
     noteService
       .update(id, changedNote)
       .then(returnedNote => {
-        setNotes(notes.map(note => note.id ? note : returnedNote))
+        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
       .catch(e => {
         setErrorMessage(
@@ -57,11 +57,14 @@ const App = () => {
       });
   }
 
-  const notesToShow = showAll ? notes : notes.filter(note => note.important);
+  const notesToShow = showAll
+    ? notes
+    : notes.filter(note => note.important);
 
   return (
     <div>
       <h2>Notebook</h2>
+      <Notification message={ errorMessage } />
       <h6>Filter Notes</h6>
       <FilterButton
         showAll={ showAll }
